@@ -1,49 +1,55 @@
-version: "3.8"
+version: '3.8'
 
 services:
   postgres:
-    image: postgres:16
+    image: 'postgres:16'
     container_name: n8n-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: '${POSTGRES_USER}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+      POSTGRES_DB: '${POSTGRES_DB}'
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - 'postgres_data:/var/lib/postgresql/data'
     networks:
-      - n8n-network
+      - n8n-internal
 
   n8n:
-    image: n8nio/n8n:latest
+    image: 'n8nio/n8n:latest'
     container_name: n8n
     restart: unless-stopped
     environment:
-      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
-      - DB_TYPE=${DB_TYPE}
-      - DB_POSTGRESDB_HOST=${DB_POSTGRESDB_HOST}
-      - DB_POSTGRESDB_PORT=${DB_POSTGRESDB_PORT}
-      - DB_POSTGRESDB_DATABASE=${DB_POSTGRESDB_DATABASE}
-      - DB_POSTGRESDB_USER=${DB_POSTGRESDB_USER}
-      - DB_POSTGRESDB_PASSWORD=${DB_POSTGRESDB_PASSWORD}
-      - N8N_HOST=${N8N_HOST}
-      - N8N_PORT=${N8N_PORT}
-      - N8N_PROTOCOL=${N8N_PROTOCOL}
-      - WEBHOOK_URL=${WEBHOOK_URL}
-      - N8N_SECURE_COOKIE=${N8N_SECURE_COOKIE}
-    ports:
-      - "5678:5678"
+      - 'N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}'
+      - 'DB_TYPE=${DB_TYPE}'
+      - 'DB_POSTGRESDB_HOST=postgres'
+      - 'DB_POSTGRESDB_PORT=5432'
+      - 'DB_POSTGRESDB_DATABASE=${POSTGRES_DB}'
+      - 'DB_POSTGRESDB_USER=${POSTGRES_USER}'
+      - 'DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}'
+      - 'N8N_HOST=0.0.0.0'
+      - 'N8N_PORT=5678'
+      - 'N8N_PROTOCOL=https'
+      - 'WEBHOOK_URL=https://n8n.haigent.ai'
+      - 'N8N_SECURE_COOKIE=true'
+    expose:
+      - '5678'
     volumes:
-      - n8n_data:/home/node/.n8n
+      - 'n8n_data:/home/node/.n8n'
     depends_on:
       - postgres
     networks:
-      - n8n-network
+      - n8n-internal
+      - coolify
+    labels:
+      - 'coolify.managed=true'
 
 volumes:
   n8n_data:
   postgres_data:
 
 networks:
-  n8n-network:
+  n8n-internal:
     driver: bridge
+  coolify:
+    external: true
+    name: coolify
