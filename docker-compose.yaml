@@ -19,7 +19,7 @@ services:
     container_name: n8n
     restart: unless-stopped
     environment:
-      - 'N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}'
+      
       - 'DB_TYPE=${DB_TYPE}'
       - 'DB_POSTGRESDB_HOST=postgres'
       - 'DB_POSTGRESDB_PORT=5432'
