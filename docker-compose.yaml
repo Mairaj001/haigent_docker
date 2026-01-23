@@ -13,7 +13,7 @@ services:
       - 'WEBHOOK_URL=${WEBHOOK_URL}'
       - 'N8N_SECURE_COOKIE=${N8N_SECURE_COOKIE}'
     expose:
-      - '5678'
+      - '5679:5678'
     volumes:
       - 'n8n_data:/home/node/.n8n'
     networks:
