@@ -9,7 +9,7 @@ services:
       - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
       - DB_TYPE=sqlite
       - N8N_HOST=0.0.0.0
-      - N8N_PORT=5678
+      - N8N_PORT=5679
       - N8N_PROTOCOL=${N8N_PROTOCOL}
       - WEBHOOK_URL=${WEBHOOK_URL}
       - N8N_SECURE_COOKIE=${N8N_SECURE_COOKIE}
