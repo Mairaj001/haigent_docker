@@ -14,9 +14,9 @@ services:
       - WEBHOOK_URL=${WEBHOOK_URL}
       - N8N_SECURE_COOKIE=${N8N_SECURE_COOKIE}
     ports:
-      - "5678:5678"
+      - "5679:5679"
     expose:
-      - "5678"
+      - "5679"
     volumes:
       - n8n_data:/home/node/.n8n
     networks:
